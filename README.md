@@ -164,11 +164,9 @@ Ikuti langkah-langkah di bawah ini untuk mengatur lingkungan pengembangan Anda.
 Buka terminal Anda dan kloning repositori:
 
 ```bash
-git clone https://github.com/your-username/auth-barniee.git
+git clone https://github.com/akmalgomal3/auth-barniee.git
 cd auth-barniee
 ```
-
-*(Catatan: Ganti `https://github.com/akmalgomal3/auth-barniee.git` dengan URL repositori aktual Anda)*
 
 ### Konfigurasi Lingkungan (.env)
 
