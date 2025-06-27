@@ -1,0 +1,892 @@
+basePath: /api/v1
+definitions:
+  handlers.CommonResponse:
+    properties:
+      data: {}
+      message:
+        type: string
+      status:
+        type: integer
+    type: object
+  handlers.CompleteRegistrationRequest:
+    properties:
+      school_id:
+        example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        type: string
+    required:
+    - school_id
+    type: object
+  handlers.CompleteRegistrationResponseData:
+    properties:
+      school:
+        $ref: '#/definitions/models.School'
+    type: object
+  handlers.CreateUserRequest:
+    properties:
+      email:
+        example: john@example.com
+        type: string
+      name:
+        example: Teacher John
+        type: string
+      password:
+        example: securepassword
+        minLength: 6
+        type: string
+      role_name:
+        enum:
+        - teacher
+        - student
+        example: teacher
+        type: string
+    required:
+    - email
+    - name
+    - password
+    - role_name
+    type: object
+  handlers.GetAllPackagesResponseData:
+    properties:
+      packages:
+        items:
+          $ref: '#/definitions/models.Package'
+        type: array
+    type: object
+  handlers.LoginRequest:
+    properties:
+      email:
+        example: user@example.com
+        type: string
+      password:
+        example: password123
+        type: string
+    required:
+    - email
+    - password
+    type: object
+  handlers.LoginResponseData:
+    properties:
+      token:
+        example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        type: string
+    type: object
+  handlers.RegisterAdminInfoRequest:
+    properties:
+      admin_email:
+        example: siti.aminah@example.com
+        type: string
+      admin_name:
+        example: Siti Aminah
+        type: string
+      position:
+        example: Direktur
+        type: string
+      school_id:
+        example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        type: string
+      whatsapp_number:
+        example: "081234567890"
+        type: string
+    required:
+    - admin_email
+    - admin_name
+    - position
+    - school_id
+    - whatsapp_number
+    type: object
+  handlers.RegisterAdminInfoResponseData:
+    properties:
+      email:
+        example: siti.aminah@example.com
+        type: string
+      password:
+        example: GeneratedPass123
+        type: string
+      school_id:
+        example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        type: string
+      user_id:
+        example: f1e2d3c4-b5a6-9876-5432-10fedcba9876
+        type: string
+    type: object
+  handlers.RegisterSchoolInfoRequest:
+    properties:
+      address:
+        example: Jl. Inovasi No. 10, Kota Teknologi
+        type: string
+      education_level:
+        enum:
+        - SD
+        - SMP
+        - SMA
+        - SMK
+        - PerguruanTinggi
+        - Lainnya
+        example: SMA
+        type: string
+      initial_student_count:
+        example: 150
+        minimum: 1
+        type: integer
+      name:
+        example: Barniee Academy
+        type: string
+      status:
+        enum:
+        - Negeri
+        - Swasta
+        example: Swasta
+        type: string
+    required:
+    - address
+    - education_level
+    - initial_student_count
+    - name
+    - status
+    type: object
+  handlers.RegisterSchoolInfoResponseData:
+    properties:
+      school_id:
+        example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        type: string
+      school_name:
+        example: Barniee Academy
+        type: string
+    type: object
+  handlers.RequestOTPRequest:
+    properties:
+      user_id:
+        example: f1e2d3c4-b5a6-9876-5432-10fedcba9876
+        type: string
+    required:
+    - user_id
+    type: object
+  handlers.SelectPackageRequest:
+    properties:
+      package_id:
+        example: package-uuid-for-premium
+        type: string
+      school_id:
+        example: a1b2c3d4-e5f6-7890-1234-567890abcdef
+        type: string
+    required:
+    - package_id
+    - school_id
+    type: object
+  handlers.SelectPackageResponseData:
+    properties:
+      school:
+        $ref: '#/definitions/models.School'
+    type: object
+  handlers.UpdateUserRequest:
+    properties:
+      email:
+        example: john.doe@example.com
+        type: string
+      name:
+        example: John Doe
+        type: string
+      role_name:
+        enum:
+        - teacher
+        - student
+        - admin
+        example: student
+        type: string
+    type: object
+  handlers.UserDataResponse:
+    properties:
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  handlers.UserListResponse:
+    properties:
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+  handlers.UserProfileResponseData:
+    properties:
+      school:
+        $ref: '#/definitions/models.School'
+      user:
+        $ref: '#/definitions/models.User'
+    type: object
+  handlers.VerifyOTPRequest:
+    properties:
+      otp:
+        example: "123456"
+        type: string
+      user_id:
+        example: f1e2d3c4-b5a6-9876-5432-10fedcba9876
+        type: string
+    required:
+    - otp
+    - user_id
+    type: object
+  models.Package:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      duration_days:
+        type: integer
+      features:
+        type: string
+      id:
+        type: string
+      max_students:
+        type: integer
+      name:
+        type: string
+      price_per_student:
+        type: number
+      price_per_year:
+        type: number
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  models.Role:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      description:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      users:
+        items:
+          $ref: '#/definitions/models.User'
+        type: array
+    type: object
+  models.School:
+    properties:
+      address:
+        type: string
+      admin_user_id:
+        type: string
+      created_at:
+        type: string
+      created_by:
+        type: string
+      education_level:
+        type: string
+      id:
+        type: string
+      initial_student_count:
+        type: integer
+      max_students_allowed:
+        type: integer
+      name:
+        type: string
+      package:
+        $ref: '#/definitions/models.Package'
+      package_id:
+        type: string
+      status:
+        type: string
+      subscription_end_date:
+        type: string
+      subscription_start_date:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+    type: object
+  models.User:
+    properties:
+      created_at:
+        type: string
+      created_by:
+        type: string
+      email:
+        type: string
+      id:
+        type: string
+      name:
+        type: string
+      position:
+        type: string
+      role:
+        $ref: '#/definitions/models.Role'
+      role_id:
+        type: string
+      school_id:
+        type: string
+      updated_at:
+        type: string
+      updated_by:
+        type: string
+      whatsapp_number:
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact:
+    email: support@barniee.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is the API documentation for Barniee Auth Service.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Barniee Auth Service API
+  version: "1.0"
+paths:
+  /admin/users:
+    get:
+      description: Retrieves a list of all users, with optional filtering by role.
+        Accessible by admins.
+      parameters:
+      - description: Filter users by role (teacher, student, admin)
+        in: query
+        name: role
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Users retrieved successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.UserListResponse'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: Get All Users
+      tags:
+      - Admin - User Management
+    post:
+      consumes:
+      - application/json
+      description: Allows an admin to create a new teacher or student account within
+        their school.
+      parameters:
+      - description: User details to create
+        in: body
+        name: createUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CreateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: User created successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.UserDataResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: Create Teacher or Student
+      tags:
+      - Admin - User Management
+  /admin/users/{id}:
+    delete:
+      description: Deletes a user by their ID. Accessible by admins.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User deleted successfully
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: Delete User
+      tags:
+      - Admin - User Management
+    get:
+      description: Retrieves a specific user's details by their ID. Accessible by
+        admins.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User retrieved successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.UserDataResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: Get User By ID
+      tags:
+      - Admin - User Management
+    put:
+      consumes:
+      - application/json
+      description: Updates the details of an existing user. Accessible by admins.
+      parameters:
+      - description: User ID
+        in: path
+        name: id
+        required: true
+        type: string
+      - description: User details to update
+        in: body
+        name: updateUserRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.UpdateUserRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User updated successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.UserDataResponse'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "403":
+          description: Forbidden
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "404":
+          description: User not found
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: Update User
+      tags:
+      - Admin - User Management
+  /auth/login:
+    post:
+      consumes:
+      - application/json
+      description: Authenticates a user and returns a JWT token.
+      parameters:
+      - description: Login Credentials
+        in: body
+        name: loginRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.LoginRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Login successful
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.LoginResponseData'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: User Login
+      tags:
+      - Auth
+  /auth/logout:
+    post:
+      description: Invalidates the client-side JWT token (no server-side session invalidation
+        for stateless JWT).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Logout successful
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: User Logout
+      tags:
+      - Auth
+  /profile:
+    get:
+      description: Retrieves the basic profile information of the authenticated user.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User profile retrieved successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.UserProfileResponseData'
+              type: object
+        "401":
+          description: Unauthorized
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      security:
+      - BearerAuth: []
+      summary: Get User Profile
+      tags:
+      - Auth
+  /register/admin-info:
+    post:
+      consumes:
+      - application/json
+      description: 'Step 2 of school registration: Register the primary admin user
+        for the school.'
+      parameters:
+      - description: Admin Information
+        in: body
+        name: registerAdminInfoRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.RegisterAdminInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Admin user created and linked to school
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.RegisterAdminInfoResponseData'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: Register Admin Information
+      tags:
+      - School Registration
+  /register/complete:
+    post:
+      consumes:
+      - application/json
+      description: 'Step 6 of school registration: Finalizes the registration process
+        after all previous steps are complete (including payment if applicable).'
+      parameters:
+      - description: School ID to complete registration for
+        in: body
+        name: completeRegistrationRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.CompleteRegistrationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: School registration completed successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.CompleteRegistrationResponseData'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: Complete School Registration
+      tags:
+      - School Registration
+  /register/email-verification/request-otp:
+    post:
+      consumes:
+      - application/json
+      description: 'Step 4 of school registration: Sends an OTP to the user''s email
+        for verification.'
+      parameters:
+      - description: User ID for OTP request
+        in: body
+        name: requestOTPRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.RequestOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OTP sent to email successfully
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: Request Email Verification OTP
+      tags:
+      - School Registration
+  /register/email-verification/verify-otp:
+    post:
+      consumes:
+      - application/json
+      description: 'Step 4 of school registration: Verifies the OTP sent to the user''s
+        email.'
+      parameters:
+      - description: User ID and OTP for verification
+        in: body
+        name: verifyOTPRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.VerifyOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Email verified successfully
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "400":
+          description: Bad request (invalid/expired OTP)
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: Verify Email OTP
+      tags:
+      - School Registration
+  /register/packages:
+    get:
+      description: Retrieves a list of all available subscription packages (Free Trial,
+        Premium, Enterprise).
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Packages retrieved successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.GetAllPackagesResponseData'
+              type: object
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: Get All Available Packages
+      tags:
+      - School Registration
+  /register/school-info:
+    post:
+      consumes:
+      - application/json
+      description: 'Step 1 of school registration: Register basic school details.'
+      parameters:
+      - description: School Information
+        in: body
+        name: registerSchoolInfoRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.RegisterSchoolInfoRequest'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: School info registered successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.RegisterSchoolInfoResponseData'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: Register School Information
+      tags:
+      - School Registration
+  /register/select-package:
+    post:
+      consumes:
+      - application/json
+      description: 'Step 3 of school registration: Selects a subscription package
+        for the school.'
+      parameters:
+      - description: Package Selection
+        in: body
+        name: selectPackageRequest
+        required: true
+        schema:
+          $ref: '#/definitions/handlers.SelectPackageRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Package selected successfully
+          schema:
+            allOf:
+            - $ref: '#/definitions/handlers.CommonResponse'
+            - properties:
+                data:
+                  $ref: '#/definitions/handlers.SelectPackageResponseData'
+              type: object
+        "400":
+          description: Bad request
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+        "500":
+          description: Internal server error
+          schema:
+            $ref: '#/definitions/handlers.CommonResponse'
+      summary: Select Package
+      tags:
+      - School Registration
+schemes:
+- http
+securityDefinitions:
+  BearerAuth:
+    description: Type "Bearer" followed by a space and JWT token.
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"
