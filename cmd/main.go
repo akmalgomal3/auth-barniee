@@ -9,28 +9,29 @@ import (
 
 	"github.com/gin-gonic/gin"
 
-	_ "auth-barniee/docs" // Import generated docs
-
+	// Swagger imports
+	_ "auth-barniee/cmd/docs" // Import generated docs
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @title Barniee Auth Service API
 // @version 1.0
-// @description Backend API for Barniee LMS authentication and school registration.
+// @description This is the API documentation for Barniee Auth Service.
 // @termsOfService http://swagger.io/terms/
 
 // @contact.name API Support
 // @contact.url http://www.swagger.io/support
-// @contact.email support@barniee.com
+// @contact.email support@barniee.io
 
 // @license.name Apache 2.0
 // @license.url http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host localhost:8080
 // @BasePath /api/v1
+// @schemes http
 
-// @securityDefinitions.apikey ApiKeyAuth
+// @securityDefinitions.apikey BearerAuth
 // @in header
 // @name Authorization
 // @description Type "Bearer" followed by a space and JWT token.
@@ -40,9 +41,11 @@ func main() {
 
 	db := database.InitDB(cfg)
 
+	gin.SetMode(gin.ReleaseMode)
+
 	r := gin.Default()
 
-	// Swagger endpoint
+	// Swagger documentation route
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	routes.SetupAuthRoutes(r, db, cfg)

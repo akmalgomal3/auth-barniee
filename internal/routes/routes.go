@@ -18,8 +18,7 @@ func SetupAuthRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
 	packageRepo := repositories.NewPackageRepository(db)
 	emailVerifyRepo := repositories.NewEmailVerificationRepository(db)
 
-	// Pass schoolRepo to AuthService
-	authService := services.NewAuthService(userRepo, roleRepo, schoolRepo, cfg)
+	authService := services.NewAuthService(userRepo, roleRepo, schoolRepo, cfg) // Updated
 	userService := services.NewUserService(userRepo, roleRepo)
 	registrationService := services.NewRegistrationService(schoolRepo, userRepo, roleRepo, packageRepo, emailVerifyRepo, cfg)
 
@@ -58,7 +57,6 @@ func SetupAuthRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
 		admin := authenticated.Group("/admin")
 		admin.Use(middlewares.AuthorizeRoles("admin"))
 		{
-			// Note: The context for adminID in CreateTeacherOrStudent and GetAllUsers will come from the token
 			admin.POST("/users", userHandler.CreateTeacherOrStudent)
 			admin.GET("/users", userHandler.GetAllUsers)
 			admin.GET("/users/:id", userHandler.GetUserByID)
