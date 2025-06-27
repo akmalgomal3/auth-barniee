@@ -9,9 +9,21 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+
+	"github.com/gin-contrib/cors"
 )
 
 func SetupAuthRoutes(r *gin.Engine, db *gorm.DB, cfg *config.Config) {
+	configCors := cors.DefaultConfig()
+	configCors.AllowAllOrigins = true
+	configCors.AllowMethods = []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"}
+	configCors.AllowHeaders = []string{"Origin", "Content-Type", "Accept", "Authorization"}
+	configCors.ExposeHeaders = []string{"Content-Length"}
+	configCors.AllowCredentials = true
+	configCors.MaxAge = 30
+
+	r.Use(cors.New(configCors))
+
 	userRepo := repositories.NewUserRepository(db)
 	roleRepo := repositories.NewRoleRepository(db)
 	schoolRepo := repositories.NewSchoolRepository(db)
